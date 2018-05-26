@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Ausgaben</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-item>
+    <ion-label stacked>Ausgabe</ion-label>
+    <ion-input type="text" [(ngModel)]="newexpense.expense"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Betrag in Euro</ion-label>
+    <ion-input type="number" [(ngModel)]="newexpense.amount"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Bezahlt von</ion-label>
+    <ion-select [(ngModel)]="newexpense.userid">
+      <ion-option *ngFor="let user of users" [value]="user.id">{{user.name}}</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Bezahlt am</ion-label>
+    <ion-datetime [(ngModel)]="newexpense.date" displayFormat="DD.MM.YYYY, HH:mm"></ion-datetime>
+  </ion-item>
+  <button ion-button (click)="addExpense()">Add!</button>
+  <ion-list>
+    <ion-item *ngFor="let expense of expenses">
+    </ion-item>
+  </ion-list>
+</ion-content>

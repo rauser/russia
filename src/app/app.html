@@ -1,1 +1,39 @@
-<ion-nav [root]="rootPage"></ion-nav>
+<ion-menu id="menu" [content]="content">
+
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>
+        Menü
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+
+    <ion-list *ngIf="auth.authenticated">
+      <ion-list-header>
+        Navigation
+      </ion-list-header>
+      <button menuClose ion-item ion-icon *ngFor="let p of pages" (click)="openPage(p)">
+        <ion-icon name={{p.iconname}} item-start>
+        </ion-icon>
+        {{p.title}}
+      </button>
+    </ion-list>
+
+    <ion-list>
+      <ion-list-header *ngIf="auth.getEmail()">{{auth.getEmail()}}</ion-list-header>
+      <ion-item (click)="logout()" *ngIf="auth.authenticated">
+        <ion-icon name="log-out" item-left></ion-icon>
+        Log out
+      </ion-item>
+
+      <ion-item (click)="login()" *ngIf="!auth.authenticated">
+        <ion-icon name="log-in" item-left></ion-icon>
+        Log in
+      </ion-item>
+    </ion-list>
+
+  </ion-content>
+</ion-menu>
+<ion-nav id="nav" [root]="rootPage" #content swipe-back-enabled="false"></ion-nav>
