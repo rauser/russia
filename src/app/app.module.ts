@@ -22,6 +22,8 @@ import {SleepPage} from "../pages/sleep/sleep";
 import {TicketsPage} from "../pages/tickets/tickets";
 import {TravelPage} from "../pages/travel/travel";
 import { UsersProvider } from '../providers/users/users';
+import {DatePipe} from "@angular/common";
+import { VariousProvider } from '../providers/various/various';
 
 const firebaseConfig = {
   apiKey: "AIzaSyB_JJ8CMRSKn1l_GB8pi8g_wZgbOGod0Gw",
@@ -71,6 +73,8 @@ const firebaseConfig = {
     AngularFireAuth,
     AuthProvider,
     UsersProvider,
+    DatePipe,
+    VariousProvider,
   ]
 })
 export class AppModule {}

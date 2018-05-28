@@ -1,18 +1,80 @@
-<!--
-  Generated template for the SkatPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
   <ion-navbar>
-    <ion-title>skat</ion-title>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Skat</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
 <ion-content padding>
-
+  <ion-list radio-group [(ngModel)]="game.playerid" (ionChange)="calculatePoints()" no-lines>
+    <ion-list-header no-lines>Alleinspieler</ion-list-header>
+    <ion-item *ngFor="let player of players">
+      <ion-radio [value]="player.id" item-start></ion-radio>
+      <ion-label>{{player.name}}</ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-item>
+    <ion-label stacked>Spiel</ion-label>
+    <ion-select [(ngModel)]="game.gameid" (ionChange)="calculatePoints()">
+      <ion-option *ngFor="let game of games" [value]="game.id">{{game.name}} ({{game.value}})</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-list radio-group *ngIf="game.gameid < 6" [(ngModel)]="buben" (ionChange)="calculatePoints()">
+    <ion-list-header>Buben</ion-list-header>
+    <ion-item>
+      <ion-radio [value]="1" item-start></ion-radio>
+      <ion-label>Mit/Ohne 1</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-radio [value]="2" item-start></ion-radio>
+      <ion-label>Mit/Ohne 2</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-radio [value]="3" item-start></ion-radio>
+      <ion-label>Mit/Ohne 3</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-radio [value]="4" item-start></ion-radio>
+      <ion-label>Mit/Ohne 4</ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-item *ngIf="game.gameid != 7">
+    <ion-checkbox [(ngModel)]="hand" (ionChange)="calculatePoints()"></ion-checkbox>
+    <ion-label>Hand gespielt</ion-label>
+  </ion-item>
+  <ion-item *ngIf="game.gameid < 6">
+    <ion-checkbox [(ngModel)]="schneider" (ionChange)="calculatePoints()"></ion-checkbox>
+    <ion-label>Schneider</ion-label>
+  </ion-item>
+  <ion-item *ngIf="hand && game.gameid < 6">
+    <ion-checkbox [(ngModel)]="schneiderangesagt" (ionChange)="calculatePoints()"></ion-checkbox>
+    <ion-label>Schneider angesagt</ion-label>
+  </ion-item>
+  <ion-item *ngIf="game.gameid < 6">
+    <ion-checkbox [(ngModel)]="schwarz" (ionChange)="calculatePoints()"></ion-checkbox>
+    <ion-label>Schwarz</ion-label>
+  </ion-item>
+  <ion-item *ngIf="hand && game.gameid < 6">
+    <ion-checkbox [(ngModel)]="schwarzangesagt" (ionChange)="calculatePoints()"></ion-checkbox>
+    <ion-label>Schwarz angesagt</ion-label>
+  </ion-item>
+  <ion-item *ngIf="hand || game.gameid == 6">
+    <ion-checkbox [(ngModel)]="offen" (ionChange)="calculatePoints()"></ion-checkbox>
+    <ion-label>Offen</ion-label>
+  </ion-item>
+  <ion-item *ngIf="game.gameid == 7" text-wrap>
+    <ion-label stacked>Negativpunkte</ion-label>
+    <ion-input type="number" [(ngModel)]="game.points"></ion-input>
+  </ion-item>
+  <ion-item *ngIf="game.gameid < 7">
+    <ion-checkbox [(ngModel)]="lost" (ionChange)="calculatePoints()"></ion-checkbox>
+    <ion-label>Verloren</ion-label>
+  </ion-item>
+  <ion-item>
+    <h2>Multiplikator: <b>{{multiplier}}</b>, Punkte: <b>{{game.points}}</b></h2>
+  </ion-item>
+  <button ion-button full color="primary" (click)="saveGame()">Speichern</button>
 </ion-content>

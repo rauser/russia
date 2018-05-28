@@ -9,10 +9,15 @@
 
 
 <ion-content padding>
-
+  <ion-item *ngFor="let user of users" text-wrap>
+    <h2>{{user.name}}</h2>
+    <b item-end [ngClass]="{'positivenumber': user.credit > 0, 'negativenumber': user.credit < 0}">
+      {{user.credit | number:'1.2-2'}} €
+    </b>
+  </ion-item>
   <ion-item>
     <ion-label stacked>Ausgabe</ion-label>
-    <ion-input type="text" [(ngModel)]="newexpense.expense"></ion-input>
+    <ion-input type="text" [(ngModel)]="newexpense.expense" placeholder="Trag mich ein"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label stacked>Betrag in Euro</ion-label>
@@ -24,13 +29,13 @@
       <ion-option *ngFor="let user of users" [value]="user.id">{{user.name}}</ion-option>
     </ion-select>
   </ion-item>
-  <ion-item>
-    <ion-label stacked>Bezahlt am</ion-label>
-    <ion-datetime [(ngModel)]="newexpense.date" displayFormat="DD.MM.YYYY, HH:mm"></ion-datetime>
-  </ion-item>
-  <button ion-button (click)="addExpense()">Add!</button>
+  <button ion-button full color="secondary" (click)="addExpense()">Hinzufügen</button>
   <ion-list>
-    <ion-item *ngFor="let expense of expenses">
+    <ion-list-header>Einzelausgaben</ion-list-header>
+    <ion-item *ngFor="let expense of expensesToShow" text-wrap>
+      <h2>{{expense.user}}: {{expense.amount | number:'1.2-2'}} € für {{expense.expense}}</h2>
+      <p>{{expense.date}}</p>
+      <ion-icon name="trash" color="danger" item-end (click)="removeExpense(expense.key)"></ion-icon>
     </ion-item>
   </ion-list>
 </ion-content>

@@ -1,18 +1,44 @@
-<!--
-  Generated template for the TravelPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
   <ion-navbar>
-    <ion-title>travel</ion-title>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Reisen</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
 <ion-content padding>
-
+  <ion-item>
+    <ion-label stacked>Von</ion-label>
+    <ion-input type="text" [(ngModel)]="newtravel.origin" placeholder="Start"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Nach</ion-label>
+    <ion-input type="text" [(ngModel)]="newtravel.destination" placeholder="Ziel"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Abfahrt</ion-label>
+    <ion-datetime [(ngModel)]="newtravel.startiso" displayFormat="DD.MM.YYYY - HH:mm"></ion-datetime>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Ankunft</ion-label>
+    <ion-datetime [(ngModel)]="newtravel.end" displayFormat="DD.MM.YYYY - HH:mm"></ion-datetime>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Transportmittel</ion-label>
+    <ion-select [(ngModel)]="newtravel.transport">
+      <ion-option *ngFor="let transport of transports" value="{{transport}}">{{transport}}</ion-option>
+    </ion-select>
+  </ion-item>
+  <button ion-button full color="secondary" (click)="addTravel()">Hinzufügen</button>
+  <ion-list>
+    <ion-list-header>Reisen</ion-list-header>
+    <ion-item *ngFor="let travel of travelsToShow" text-wrap>
+      <h2>{{travel.start}}: {{travel.origin}}</h2>
+      <h2>{{travel.end}}: {{travel.destination}}</h2>
+      <p>Transportmittel: {{travel.transport}}</p>
+      <ion-icon name="trash" color="danger" item-end (click)="removeTravel(travel.key)"></ion-icon>
+    </ion-item>
+  </ion-list>
 </ion-content>
