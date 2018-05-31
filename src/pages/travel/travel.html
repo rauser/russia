@@ -31,6 +31,10 @@
       <ion-option *ngFor="let transport of transports" value="{{transport}}">{{transport}}</ion-option>
     </ion-select>
   </ion-item>
+  <ion-item>
+    <ion-label stacked>Bemerkung</ion-label>
+    <ion-input type="textarea" [(ngModel)]="newtravel.comment" placeholder="Bemerkung"></ion-input>
+  </ion-item>
   <button ion-button full color="secondary" (click)="addTravel()">Hinzufügen</button>
   <ion-list>
     <ion-list-header>Reisen</ion-list-header>
@@ -38,6 +42,7 @@
       <h2>{{travel.start}}: {{travel.origin}}</h2>
       <h2>{{travel.end}}: {{travel.destination}}</h2>
       <p>Transportmittel: {{travel.transport}}</p>
+      <p *ngIf="travel.comment">Bemerkung: {{travel.comment}}</p>
       <ion-icon name="trash" color="danger" item-end (click)="removeTravel(travel.key)"></ion-icon>
     </ion-item>
   </ion-list>

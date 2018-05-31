@@ -4,65 +4,60 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Skat</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="resetCounter()">
+        <ion-icon name="refresh"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
-  <ion-list radio-group [(ngModel)]="game.playerid" (ionChange)="calculatePoints()" no-lines>
-    <ion-list-header no-lines>Alleinspieler</ion-list-header>
-    <ion-item *ngFor="let player of players">
-      <ion-radio [value]="player.id" item-start></ion-radio>
-      <ion-label>{{player.name}}</ion-label>
-    </ion-item>
-  </ion-list>
-  <ion-item>
-    <ion-label stacked>Spiel</ion-label>
-    <ion-select [(ngModel)]="game.gameid" (ionChange)="calculatePoints()">
-      <ion-option *ngFor="let game of games" [value]="game.id">{{game.name}} ({{game.value}})</ion-option>
-    </ion-select>
-  </ion-item>
-  <ion-list radio-group *ngIf="game.gameid < 6" [(ngModel)]="buben" (ionChange)="calculatePoints()">
-    <ion-list-header>Buben</ion-list-header>
-    <ion-item>
-      <ion-radio [value]="1" item-start></ion-radio>
-      <ion-label>Mit/Ohne 1</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-radio [value]="2" item-start></ion-radio>
-      <ion-label>Mit/Ohne 2</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-radio [value]="3" item-start></ion-radio>
-      <ion-label>Mit/Ohne 3</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-radio [value]="4" item-start></ion-radio>
-      <ion-label>Mit/Ohne 4</ion-label>
-    </ion-item>
-  </ion-list>
+  <ion-row text-wrap>
+    <ion-col *ngFor="let player of players" col-4 [ngClass]="{'selected': player.selected==true}">
+      <ion-avatar (click)="selectPlayer(player.id)">
+        <img [src]="player.img">
+      </ion-avatar>
+      <p text-center><b>{{player.currentpoints}}/{{player.points}}</b></p>
+    </ion-col>
+  </ion-row>
+  <ion-row text-wrap>
+    <ion-col *ngFor="let chosengame of games" [ngClass]="{'selected': chosengame.selected==true}">
+      <ion-avatar (click)="selectGame(chosengame.id)">
+        <img [src]="chosengame.img">
+      </ion-avatar>
+    </ion-col>
+  </ion-row>
+  <ion-row text-wrap *ngIf="game.gameid < 6">
+    <ion-col *ngFor="let jack of this.jacks" col-3 [ngClass]="{'selected': jack.selected==true}">
+      <ion-avatar (click)="selectJack(jack.id)">
+        <img [src]="jack.img">
+      </ion-avatar>
+    </ion-col>
+  </ion-row>
   <ion-item *ngIf="game.gameid != 7">
-    <ion-checkbox [(ngModel)]="hand" (ionChange)="calculatePoints()"></ion-checkbox>
+    <ion-checkbox [(ngModel)]="game.hand" (ionChange)="calculatePoints()"></ion-checkbox>
     <ion-label>Hand gespielt</ion-label>
   </ion-item>
   <ion-item *ngIf="game.gameid < 6">
-    <ion-checkbox [(ngModel)]="schneider" (ionChange)="calculatePoints()"></ion-checkbox>
+    <ion-checkbox [(ngModel)]="game.schneider" (ionChange)="calculatePoints()"></ion-checkbox>
     <ion-label>Schneider</ion-label>
   </ion-item>
-  <ion-item *ngIf="hand && game.gameid < 6">
-    <ion-checkbox [(ngModel)]="schneiderangesagt" (ionChange)="calculatePoints()"></ion-checkbox>
+  <ion-item *ngIf="game.hand && game.gameid < 6">
+    <ion-checkbox [(ngModel)]="game.schneiderangesagt" (ionChange)="calculatePoints()"></ion-checkbox>
     <ion-label>Schneider angesagt</ion-label>
   </ion-item>
   <ion-item *ngIf="game.gameid < 6">
-    <ion-checkbox [(ngModel)]="schwarz" (ionChange)="calculatePoints()"></ion-checkbox>
+    <ion-checkbox [(ngModel)]="game.schwarz" (ionChange)="calculatePoints()"></ion-checkbox>
     <ion-label>Schwarz</ion-label>
   </ion-item>
-  <ion-item *ngIf="hand && game.gameid < 6">
-    <ion-checkbox [(ngModel)]="schwarzangesagt" (ionChange)="calculatePoints()"></ion-checkbox>
+  <ion-item *ngIf="game.hand && game.gameid < 6">
+    <ion-checkbox [(ngModel)]="game.schwarzangesagt" (ionChange)="calculatePoints()"></ion-checkbox>
     <ion-label>Schwarz angesagt</ion-label>
   </ion-item>
-  <ion-item *ngIf="hand || game.gameid == 6">
-    <ion-checkbox [(ngModel)]="offen" (ionChange)="calculatePoints()"></ion-checkbox>
+  <ion-item *ngIf="game.hand || game.gameid == 6">
+    <ion-checkbox [(ngModel)]="game.offen" (ionChange)="calculatePoints()"></ion-checkbox>
     <ion-label>Offen</ion-label>
   </ion-item>
   <ion-item *ngIf="game.gameid == 7" text-wrap>
@@ -70,11 +65,39 @@
     <ion-input type="number" [(ngModel)]="game.points"></ion-input>
   </ion-item>
   <ion-item *ngIf="game.gameid < 7">
-    <ion-checkbox [(ngModel)]="lost" (ionChange)="calculatePoints()"></ion-checkbox>
+    <ion-checkbox [(ngModel)]="game.lost" (ionChange)="calculatePoints()"></ion-checkbox>
     <ion-label>Verloren</ion-label>
   </ion-item>
-  <ion-item>
-    <h2>Multiplikator: <b>{{multiplier}}</b>, Punkte: <b>{{game.points}}</b></h2>
+  <ion-item *ngIf="game.gameid < 6" text-wrap>
+    <h2>Grundwert: {{game.value}}, Multiplikator: <b>{{game.multiplier}}</b>, Punkte: <b>{{game.points}}</b></h2>
   </ion-item>
-  <button ion-button full color="primary" (click)="saveGame()">Speichern</button>
+  <ion-item *ngIf="game.gameid > 5" text-wrap>
+    <h2>Punkte: <b>{{game.points}}</b></h2>
+  </ion-item>
+  <button ion-button full color="secondary" (click)="saveGame()"
+          [disabled]="!game.playerid || !game.gameid || (game.gameid < 6 && !game.buben)">
+    Speichern
+  </button>
+  <button ion-button full color="primary" *ngIf="!showpastgames" (click)="showPastGames()">Spiele anzeigen</button>
+  <button ion-button full color="danger" *ngIf="showpastgames" (click)="showPastGames()">Spiele verbergen</button>
+  <ion-list *ngIf="this.showpastgames">
+    <ion-item *ngFor="let pastgame of this.pastgames" text-wrap>
+      <ion-thumbnail item-start>
+        <img [src]="pastgame.img">
+      </ion-thumbnail>
+      <h2><b>{{pastgame.game}}: {{pastgame.points}}</b></h2>
+      <p>
+      <b *ngIf="pastgame.gameid<6">mit/ohne {{pastgame.buben}},</b>
+        <b *ngIf="pastgame.gameid<6 && pastgame.schneider">schneider,</b>
+        <b *ngIf="pastgame.gameid<6 && pastgame.schneiderangesagt">schneider angesagt,</b>
+        <b *ngIf="pastgame.gameid<6 && pastgame.schwarz">schwarz,</b>
+        <b *ngIf="pastgame.gameid<6 && pastgame.schwarzangesagt">schwarz angesagt,</b>
+        <b *ngIf="pastgame.gameid<7 && pastgame.offen">offen,</b>
+        <b *ngIf="pastgame.gameid<7 && pastgame.hand">hand,</b>
+        <b *ngIf="pastgame.gameid<7 && pastgame.lost">verloren</b>
+      </p>
+      <p>{{pastgame.datetime}}</p>
+      <ion-icon name="trash" color="danger" item-end (click)="removeGame(pastgame.key)"></ion-icon>
+    </ion-item>
+  </ion-list>
 </ion-content>

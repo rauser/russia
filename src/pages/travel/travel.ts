@@ -11,6 +11,7 @@ export interface Travel{
   end: string,
   startiso: string,
   transport: string,
+  comment: string,
 }
 
 @IonicPage()
@@ -31,11 +32,13 @@ export class TravelPage {
   ];
 
   newtravel: Travel = {
-      origin: '', destination: '',
+      origin: '',
+      destination: '',
       start: new Date().toISOString(),
       end: new Date().toISOString(),
       startiso: new Date().toISOString(),
-      transport: 'Auto'
+      transport: 'Auto',
+      comment: ''
     };
 
   constructor(public navCtrl: NavController,
@@ -65,7 +68,6 @@ export class TravelPage {
       },
       (err) => {console.log(err)}
     );
-
   }
 
   addTravel(){
@@ -79,6 +81,7 @@ export class TravelPage {
       this.newtravel.origin = '';
       this.newtravel.destination = '';
       this.newtravel.transport = '';
+      this.newtravel.comment = '';
     });
   }
 

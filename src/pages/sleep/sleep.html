@@ -1,18 +1,55 @@
-<!--
-  Generated template for the SleepPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
   <ion-navbar>
-    <ion-title>sleep</ion-title>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Unterkünfte</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
 <ion-content padding>
-
+  <ion-item>
+    <ion-label stacked>Name</ion-label>
+    <ion-input type="text" [(ngModel)]="newsleep.name" placeholder="Hotelname"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Stadt</ion-label>
+    <ion-input type="text" [(ngModel)]="newsleep.city" placeholder="Stadt"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Adresse</ion-label>
+    <ion-input type="text" [(ngModel)]="newsleep.adress" placeholder="Straße"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Bemerkung</ion-label>
+    <ion-input type="textarea" [(ngModel)]="newsleep.comment" placeholder="Bemerkung"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Ankunft</ion-label>
+    <ion-datetime [(ngModel)]="newsleep.arrivaliso" displayFormat="DD.MM.YYYY - HH:mm"></ion-datetime>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Anreise</ion-label>
+    <ion-datetime [(ngModel)]="newsleep.departure" displayFormat="DD.MM.YYYY - HH:mm"></ion-datetime>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Typ</ion-label>
+    <ion-select [(ngModel)]="newsleep.type">
+      <ion-option *ngFor="let type of types" value="{{type}}">{{type}}</ion-option>
+    </ion-select>
+  </ion-item>
+  <button ion-button full color="secondary" (click)="addSleep()">Hinzufügen</button>
+  <ion-list>
+    <ion-list-header>Unterkünfte</ion-list-header>
+    <ion-item *ngFor="let sleep of sleepsToShow" text-wrap>
+      <h2><b>{{sleep.name}}</b></h2>
+      <h2>{{sleep.city}}, {{sleep.adress}}</h2>
+      <p>Check-In: {{sleep.arrival}}</p>
+      <p>Check-Out: {{sleep.departure}}</p>
+      <p>Typ: {{sleep.type}}</p>
+      <p *ngIf="sleep.comment">Bemerkung: {{sleep.comment}}</p>
+      <ion-icon name="trash" color="danger" item-end (click)="removeSleep(sleep.key)"></ion-icon>
+    </ion-item>
+  </ion-list>
 </ion-content>
