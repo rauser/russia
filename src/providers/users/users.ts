@@ -11,7 +11,7 @@ export class UsersProvider {
 
   users: Users[] = [
     {id: 1, name: 'Julie', img: 'assets/imgs/Julian.JPG'},
-    {id: 2, name: 'Koos', img: 'assets/imgs/Koos.JPG'},
+    {id: 2, name: 'Koos', img: 'assets/imgs/Marcel.JPG'},
     {id: 3, name: 'Johann', img: 'assets/imgs/Johann.JPG'}
   ];
 

@@ -43,7 +43,7 @@ export class SkatPage {
     {id: 1, color: 'Kreuz', value: 1, img: 'assets/imgs/KreuzBube.jpg', selected: false},
     {id: 2, color: 'Pik', value: 2, img: 'assets/imgs/PikBube.jpg', selected: false},
     {id: 3, color: 'Herz', value: 3, img: 'assets/imgs/HerzBube.jpg', selected: false},
-    {id: 4, color: 'Karo', value: 4, img: 'assets/imgs/KaroBube.jpg', selected: false},
+    {id: 4, color: 'Karo', value: 4, img: 'assets/imgs/KaroBube2.jpg', selected: false},
   ];
 
   showpastgames: boolean = false;

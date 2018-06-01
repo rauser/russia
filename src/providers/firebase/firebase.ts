@@ -236,4 +236,16 @@ export class FirebaseProvider {
     return this.afd.list('/tickets').remove(key);
   }
 
+  getOtherPoints(){
+    return this.afd.object('/otherpoints').valueChanges();
+  }
+
+  addOtherPoint(point: any){
+    return this.afd.list('/otherpoints').push(point);
+  }
+
+  deleteOtherPoints(key: any){
+    return this.afd.list('/otherpoints').remove(key);
+  }
+
 }
