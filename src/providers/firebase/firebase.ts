@@ -224,4 +224,16 @@ export class FirebaseProvider {
     alert.present();
   }
 
+  getTickets(){
+    return this.afd.object('/tickets').valueChanges();
+  }
+
+  addTicket(toSave: any){
+    return this.afd.list('/tickets').push(toSave);
+  }
+
+  deleteTicket(key: any){
+    return this.afd.list('/tickets').remove(key);
+  }
+
 }

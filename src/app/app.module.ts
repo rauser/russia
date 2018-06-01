@@ -24,6 +24,10 @@ import {TravelPage} from "../pages/travel/travel";
 import { UsersProvider } from '../providers/users/users';
 import {DatePipe} from "@angular/common";
 import { VariousProvider } from '../providers/various/various';
+import {FileChooser} from "@ionic-native/file-chooser";
+import { StorageProvider } from '../providers/storage/storage';
+import {AngularFireStorageModule} from "angularfire2/storage";
+import {InAppBrowser} from "@ionic-native/in-app-browser";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB_JJ8CMRSKn1l_GB8pi8g_wZgbOGod0Gw",
@@ -50,6 +54,7 @@ const firebaseConfig = {
     BrowserModule,
     HttpModule,
     AngularFireDatabaseModule,
+    AngularFireStorageModule,
     AngularFireModule.initializeApp(firebaseConfig),
     IonicModule.forRoot(MyApp)
   ],
@@ -75,6 +80,9 @@ const firebaseConfig = {
     UsersProvider,
     DatePipe,
     VariousProvider,
+    StorageProvider,
+    InAppBrowser,
+    FileChooser,
   ]
 })
 export class AppModule {}
