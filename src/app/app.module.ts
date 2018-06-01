@@ -15,19 +15,20 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuth } from 'angularfire2/auth';
 import {LoginPage} from "../pages/login/login";
 import { AuthProvider } from '../providers/auth/auth';
-import {BinoggelPage} from "../pages/binoggel/binoggel";
-import {ExpensesPage} from "../pages/expenses/expenses";
-import {SkatPage} from "../pages/skat/skat";
-import {SleepPage} from "../pages/sleep/sleep";
-import {TicketsPage} from "../pages/tickets/tickets";
-import {TravelPage} from "../pages/travel/travel";
 import { UsersProvider } from '../providers/users/users';
 import {DatePipe} from "@angular/common";
 import { VariousProvider } from '../providers/various/various';
 import {FileChooser} from "@ionic-native/file-chooser";
 import { StorageProvider } from '../providers/storage/storage';
 import {AngularFireStorageModule} from "angularfire2/storage";
-import {InAppBrowser} from "@ionic-native/in-app-browser";
+import {LoginPageModule} from '../pages/login/login.module';
+import {BinoggelPageModule} from "../pages/binoggel/binoggel.module";
+import {ExpensesPageModule} from "../pages/expenses/expenses.module";
+import {SkatPageModule} from "../pages/skat/skat.module";
+import {SleepPageModule} from "../pages/sleep/sleep.module";
+import {TicketsPageModule} from "../pages/tickets/tickets.module";
+import {TravelPageModule} from "../pages/travel/travel.module";
+import {OthergamePageModule} from "../pages/othergame/othergame.module";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB_JJ8CMRSKn1l_GB8pi8g_wZgbOGod0Gw",
@@ -42,13 +43,6 @@ const firebaseConfig = {
   declarations: [
     MyApp,
     HomePage,
-    LoginPage,
-    BinoggelPage,
-    ExpensesPage,
-    SkatPage,
-    SleepPage,
-    TicketsPage,
-    TravelPage,
   ],
   imports: [
     BrowserModule,
@@ -56,19 +50,21 @@ const firebaseConfig = {
     AngularFireDatabaseModule,
     AngularFireStorageModule,
     AngularFireModule.initializeApp(firebaseConfig),
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    LoginPageModule,
+    BinoggelPageModule,
+    ExpensesPageModule,
+    SkatPageModule,
+    SleepPageModule,
+    TicketsPageModule,
+    TravelPageModule,
+    OthergamePageModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage,
     LoginPage,
-    BinoggelPage,
-    ExpensesPage,
-    SkatPage,
-    SleepPage,
-    TicketsPage,
-    TravelPage,
   ],
   providers: [
     StatusBar,
@@ -81,7 +77,6 @@ const firebaseConfig = {
     DatePipe,
     VariousProvider,
     StorageProvider,
-    InAppBrowser,
     FileChooser,
   ]
 })

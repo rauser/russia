@@ -1,39 +1,31 @@
 import { Injectable } from '@angular/core';
-import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
 import {FirebaseProvider} from "../firebase/firebase";
+import firebase from 'firebase';
 
 @Injectable()
 export class StorageProvider {
 
-  constructor(public fireProv: FirebaseProvider,
-              private afStorage: AngularFireStorage) {
+  firestore = firebase.storage();
+
+  constructor(public fireProv: FirebaseProvider) {
     console.log('Hello StorageProvider Provider');
   }
 
-  uploadToStorage(information, name) {
-    return this.afStorage.ref('/tickets/').child(name).put(information);
+  uploadToStorage(file, name) {
+    return this.firestore.ref('/tickets/').child(name).put(file);
   }
 
   getDownloadUrl(name: string){
     console.log(name);
-   // return this.afStorage.ref('/tickets/'+name).getDownloadURL();
-  }
-
-  storeInfoToDatabase(metainfo) {
-    let toSave = {
-      created: metainfo.timeCreated,
-      url: metainfo.downloadURLs[0],
-      fullPath: metainfo.fullPath,
-      contentType: metainfo.contentType
-    };
-    return this.fireProv.addTicket(toSave);;
+    let reference = '/tickets/' + name;
+    console.log(reference);
+    return this.firestore.ref(reference).getDownloadURL();
   }
 
   deleteTicket(file) {
     let key = file.key;
-    let storagePath = file.fullPath;
-
+    let storagePath = '/tickets/' + file.name;
     this.fireProv.deleteTicket(key);
-    return this.afStorage.ref(storagePath).delete();
+    return this.firestore.ref(storagePath).delete();
   }
 }

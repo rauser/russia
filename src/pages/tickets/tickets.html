@@ -9,29 +9,19 @@
 
 
 <ion-content padding>
-  <ion-card *ngFor="let file of tickets">
-    <ion-card-header>
-      {{ file.created | date:'medium' }}
-    </ion-card-header>
 
-    <ion-card-content>
-
-      <button ion-button block icon-left outline (click)="viewFile(file.url)">
-        <ion-icon name="eye"></ion-icon>
-        {{ file.fullPath }}
-      </button>
-
-      <button ion-button block outline icon-left color="danger" (click)="deleteFile(file)">
-        <ion-icon name="trash"></ion-icon> Delete
-      </button>
-
-    </ion-card-content>
-
-  </ion-card>
-
-  <ion-fab right bottom>
-    <button ion-fab color="primary" (click)="addTicket()">
-      <ion-icon name="cloud-upload"></ion-icon>
-    </button>
-  </ion-fab>
+  <ion-item>
+    <ion-label stacked>Dateiname ohne Endung</ion-label>
+    <ion-input type="text" [(ngModel)]="newTicket.name" placeholder="Anzeigename (ohne Leerzeichen)"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Beschreibung</ion-label>
+    <ion-input type="textarea" rows="3" [(ngModel)]="newTicket.description" placeholder="Beschreibung"></ion-input>
+  </ion-item>
+  <button ion-button full color="secondary" (click)="addTicket()">PDF auswählen</button>
+  <ion-item *ngFor="let file of tickets">
+    <a [href]="file.url">{{file.name}}</a>
+    <p>{{file.description}}</p>
+    <ion-icon name="trash" color="danger" item-end (click)="deleteFile(file)"></ion-icon>
+  </ion-item>
 </ion-content>

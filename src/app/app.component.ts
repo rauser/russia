@@ -11,6 +11,7 @@ import {SleepPage} from "../pages/sleep/sleep";
 import {TicketsPage} from "../pages/tickets/tickets";
 import {SkatPage} from "../pages/skat/skat";
 import {BinoggelPage} from "../pages/binoggel/binoggel";
+import {OthergamePage} from "../pages/othergame/othergame";
 
 export interface PageInterface {
   title: string;
@@ -33,6 +34,7 @@ export class MyApp {
     { title: 'Tickets', component: TicketsPage, iconname:'document' },
     { title: 'Skat', component: SkatPage, iconname:'game-controller-a' },
     { title: 'Binoggel', component: BinoggelPage, iconname:'game-controller-b' },
+    { title: 'Sonstiges Spiel', component: OthergamePage, iconname:'calculator' },
   ];
 
   @ViewChild(Nav) nav: Nav;
@@ -47,6 +49,16 @@ export class MyApp {
       splashScreen.hide();
       this.menu = menu;
       this.initializeApp();
+      platform.registerBackButtonAction(() => {
+        if(this.menu.isOpen()){
+          this.menu.close()
+        }
+        else if(this.nav.canGoBack()){
+          this.nav.pop();
+        }else{
+          //don't do anything
+        }
+      });
     });
   }
 
