@@ -4,10 +4,87 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Binoggel</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="resetCounter()">
+        <ion-icon name="refresh"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
-
+  <ion-row text-wrap>
+    <ion-col *ngFor="let player of players" col-4 [ngClass]="{'selected': player.selected==true}">
+      <ion-avatar (click)="selectPlayer(player.id)">
+        <img [src]="player.img">
+      </ion-avatar>
+      <p text-center><b>{{player.currentpoints}}/{{player.points}}</b></p>
+      <p text-center><b>++: {{player.currentpp}}/{{player.pp}}</b></p>
+      <p text-center><b>+: {{player.currentp}}/{{player.p}}</b></p>
+      <p text-center><b>-: {{player.currentm}}/{{player.m}}</b></p>
+      <p text-center><b>--: {{player.currentmm}}/{{player.mm}}</b></p>
+    </ion-col>
+  </ion-row>
+  <ion-item>
+    <ion-label>Gereizt: </ion-label>
+    <ion-input type="number" [(ngModel)]="game.gereizt"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-checkbox [(ngModel)]="game.durch"></ion-checkbox>
+    <ion-label>Durch</ion-label>
+  </ion-item>
+  <ion-item *ngIf="!game.durch">
+    <ion-checkbox [(ngModel)]="game.gespielt"></ion-checkbox>
+    <ion-label>Gespielt</ion-label>
+  </ion-item>
+  <ion-grid *ngIf="!game.durch">
+    <ion-row>
+      <ion-col>Name</ion-col>
+      <ion-col>Gemeldet</ion-col>
+      <ion-col>Gemacht</ion-col>
+    </ion-row>
+    <ion-row *ngFor="let player of players">
+      <ion-col>{{player.name}}</ion-col>
+      <ion-col>
+        <ion-input type="number" [(ngModel)]="player.gemeldet"></ion-input>
+      </ion-col>
+      <ion-col>
+        <ion-input type="number" [(ngModel)]="player.gemacht"></ion-input>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-item *ngIf="game.durch">
+    <ion-checkbox [(ngModel)]="game.hingelegt"></ion-checkbox>
+    <ion-label>Hingelegt</ion-label>
+  </ion-item>
+  <ion-item *ngIf="game.durch">
+    <ion-checkbox [(ngModel)]="game.abgegangen"></ion-checkbox>
+    <ion-label>Abgegangen</ion-label>
+  </ion-item>
+  <button ion-button full color="secondary" (click)="saveGame()" [disabled]="!game.playedbyid">
+    Speichern
+  </button>
+  <button ion-button full color="primary" *ngIf="!showpastgames" (click)="showPastGames()">Spiele anzeigen</button>
+  <button ion-button full color="danger" *ngIf="showpastgames" (click)="showPastGames()">Spiele verbergen</button>
+  <ion-list *ngIf="this.showpastgames">
+    <ion-item *ngFor="let pastgame of this.pastgames" text-wrap>
+      <ion-thumbnail item-start>
+        <img [src]="pastgame.img">
+      </ion-thumbnail>
+      <h2><b>{{pastgame.playedby}}: {{pastgame.gereizt}}</b></h2>
+      <p *ngIf="!pastgame.durch">
+        <b>Gemeldet: {{pastgame.gemeldet}}</b> <br>
+        <b>Gemacht: {{pastgame.gemacht}}</b>
+      </p>
+      <p *ngIf="pastgame.durch">
+        <b *ngIf="pastgame.hingelegt && !pastgame.abgegangen">++</b>
+        <b *ngIf="!pastgame.hingelegt && !pastgame.abgegangen">+</b>
+        <b *ngIf="!pastgame.hingelegt && pastgame.abgegangen">-</b>
+        <b *ngIf="pastgame.hingelegt && pastgame.abgegangen">--</b>
+      </p>
+      <p>{{pastgame.datetime}}</p>
+      <ion-icon name="trash" color="danger" item-end (click)="removeGame(pastgame.key)"></ion-icon>
+    </ion-item>
+  </ion-list>
 </ion-content>

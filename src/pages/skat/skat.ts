@@ -59,6 +59,7 @@ export class SkatPage {
     img: string,
     gameid: number,
     game: string,
+    mit: boolean,
     buben: number,
     multiplier: number,
     value: number,
@@ -78,6 +79,7 @@ export class SkatPage {
     img: '',
     gameid: 0,
     game: '',
+    mit: false,
     buben: 0,
     multiplier: 0,
     value: 0,
@@ -209,6 +211,7 @@ export class SkatPage {
   }
 
   selectJack(id: number){
+    this.game.mit = !this.game.mit;
     for(let jack of this.jacks){
       jack.selected = jack.id <= id;
       if(jack.id == id)
@@ -269,6 +272,7 @@ export class SkatPage {
       this.game.img = '';
       this.game.gameid = 0;
       this.game.game = '';
+      this.game.mit = false;
       this.game.buben = 0;
       this.game.multiplier = 0;
       this.game.value = 0;

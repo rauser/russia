@@ -30,7 +30,9 @@
     </ion-col>
   </ion-row>
   <ion-row text-wrap *ngIf="game.gameid < 6">
-    <ion-col *ngFor="let jack of this.jacks" col-3 [ngClass]="{'selected': jack.selected==true}">
+    <ion-col *ngFor="let jack of this.jacks" col-3
+             [ngClass]="{'selected': (jack.selected && game.mit) || (!jack.selected && !game.mit),
+             'unselected': (jack.selected && !game.mit) || (!jack.selected && game.mit)}">
       <ion-avatar (click)="selectJack(jack.id)">
         <img [src]="jack.img">
       </ion-avatar>
@@ -87,7 +89,8 @@
       </ion-thumbnail>
       <h2><b>{{pastgame.game}}: {{pastgame.points}}</b></h2>
       <p>
-      <b *ngIf="pastgame.gameid<6">mit/ohne {{pastgame.buben}},</b>
+        <b *ngIf="pastgame.gameid<6 && pastgame.mit">mit {{pastgame.buben}},</b>
+        <b *ngIf="pastgame.gameid<6 && !pastgame.mit">ohne {{pastgame.buben}},</b>
         <b *ngIf="pastgame.gameid<6 && pastgame.schneider">schneider,</b>
         <b *ngIf="pastgame.gameid<6 && pastgame.schneiderangesagt">schneider angesagt,</b>
         <b *ngIf="pastgame.gameid<6 && pastgame.schwarz">schwarz,</b>

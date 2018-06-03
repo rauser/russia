@@ -224,6 +224,95 @@ export class FirebaseProvider {
     alert.present();
   }
 
+  getBinoggelGames(){
+    return this.afd.object('/binoggel').valueChanges();
+  }
+
+  addBinoggelGame(binoggelgame: any){
+    return this.afd.list('/binoggel').push(binoggelgame);
+  }
+
+  removeBinoggelGame(id){
+    let alert = this.alertCtrl.create({
+      title: 'Spiel löschen',
+      message: 'Sicher, dass du das löschen willst?',
+      buttons: [
+        {
+          text: 'Abbrechen',
+          role: 'cancel',
+          handler: () => {
+            console.log('Delete cancelled');
+          }
+        },
+        {
+          text: 'Löschen',
+          handler: () => {
+            console.log('Delete confirmed');
+            this.afd.list('/binoggel').remove(id).then(() => {
+              this.varProv.showToast('Spiel gelöscht');
+            }) .catch(() => {
+              this.varProv.showToast('Löschen nicht möglich, frag Johann was los ist...');
+            })
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  getBinoggelCounter(){
+    return this.afd.object('/binoggelcounter').valueChanges();
+  }
+
+  deleteBinoggelCounter(counter: any){
+    return this.afd.list('/binoggelcounter').remove(counter.key);
+  }
+
+  setBinoggelCounter(){
+    let counter: StartCounter = {
+      startiso: new Date().toISOString(),
+      start: this.datePipe.transform(new Date().toISOString(), 'dd.MM.yyyy - HH:mm')
+    };
+    return this.afd.list('/binoggelcounter').push(counter);
+  }
+
+  resetBinoggelCounter(counter: any){
+    console.log(counter);
+    let alert = this.alertCtrl.create({
+      title: 'Neue Liste',
+      message: 'Die aktuelle Liste läuft seit ' + counter.start + ' und enthält ' + counter.games + ' Spiele.',
+      buttons: [
+        {
+          text: 'Abbrechen',
+          role: 'cancel',
+          handler: () => {
+            console.log('Reset cancelled');
+          }
+        },
+        {
+          text: 'Reset',
+          handler: () => {
+            console.log('Reset confirmed');
+            this.deleteBinoggelCounter(counter).then((res) => {
+              console.log(res);
+              this.setBinoggelCounter().then((res1) => {
+                console.log(res1);
+                this.varProv.showToast('Liste wurde neu gesetzt.');
+              }, (err) => {
+                console.log(err);
+                this.varProv.showToast('Da hat was nicht geklappt beim Neu setzen, frag Johann was los ist...')
+              })
+            }) .catch((err) => {
+              console.log(err);
+              this.varProv.showToast('Da hat was nicht geklappt beim Löschen, frag Johann was los ist...');
+            })
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
   getTickets(){
     return this.afd.object('/tickets').valueChanges();
   }
