@@ -27,8 +27,9 @@ export class TravelPage {
     'Auto',
     'Bahn',
     'Bus',
+    'Flugzeug',
     'Schiff',
-    'Zug'
+    'Sonstiges',
   ];
 
   newtravel: Travel = {
