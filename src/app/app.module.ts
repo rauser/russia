@@ -81,3 +81,5 @@ const firebaseConfig = {
   ]
 })
 export class AppModule {}
+
+// build with: ionic cordova build android --aot --minifyjs --minifycss

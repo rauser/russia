@@ -29,12 +29,20 @@
       <ion-option *ngFor="let user of users" [value]="user.id">{{user.name}}</ion-option>
     </ion-select>
   </ion-item>
+  <ion-item>
+    <ion-label stacked>Ausschließen</ion-label>
+    <ion-select [(ngModel)]="newexpense.excludeid">
+      <ion-option value="0">Niemand</ion-option>
+      <ion-option *ngFor="let user of users" [value]="user.id">{{user.name}}</ion-option>
+    </ion-select>
+  </ion-item>
   <button ion-button full color="secondary" (click)="addExpense()">Hinzufügen</button>
   <ion-list>
     <ion-list-header>Einzelausgaben</ion-list-header>
     <ion-item *ngFor="let expense of expensesToShow" text-wrap>
       <h2>{{expense.user}}: {{expense.amount | number:'1.2-2'}} € für {{expense.expense}}</h2>
       <p>{{expense.date}}</p>
+      <p>{{expense.excluded}} ausgeschlossen</p>
       <ion-icon name="trash" color="danger" item-end (click)="removeExpense(expense.key)"></ion-icon>
     </ion-item>
   </ion-list>

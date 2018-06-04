@@ -9,6 +9,8 @@ export interface Expense{
   expense: string,
   userid: number,
   user: string,
+  excludeid: number,
+  excluded: string,
 }
 
 @IonicPage()
@@ -21,7 +23,7 @@ export class ExpensesPage {
   expenses: any[] = [];
   expensesToShow: any[] = [];
 
-  newexpense: Expense = {amount: 0, expense: '', userid: 1, user: ''};
+  newexpense: Expense = {amount: 0, expense: '', userid: 1, user: '', excludeid: 0, excluded: 'Niemand'};
 
   users: any[] = [];
 
@@ -50,10 +52,27 @@ export class ExpensesPage {
           res[expense].key = expense;
           this.expenses.push(res[expense]);
           for(let user of this.users){
-            if(res[expense].userid == user.id){
-              user.credit += res[expense].amount * ((this.users.length - 1)/(this.users.length));
-            } else {
-              user.credit -= res[expense].amount * (1 / this.users.length);
+            if(res[expense].excludeid){
+              if(res[expense].excludeid == res[expense].userid){
+                if(res[expense].userid == user.id){
+                  user.credit += +res[expense].amount;
+                } else {
+                  user.credit -= +res[expense].amount * (1 / (this.users.length-1));
+                }
+              } else {
+                if(res[expense].userid == user.id){
+                  user.credit += +res[expense].amount * ((this.users.length - 2)/(this.users.length - 1));
+                } else if(res[expense].excludeid != user.id) {
+                  user.credit -= +res[expense].amount * (1 / (this.users.length-1));
+                }
+              }
+            }
+            else {
+              if(res[expense].userid == user.id){
+                user.credit += +res[expense].amount * ((this.users.length - 1)/(this.users.length));
+              } else {
+                user.credit -= +res[expense].amount * (1 / this.users.length);
+              }
             }
           }
         }
@@ -69,6 +88,9 @@ export class ExpensesPage {
       if(user.id == this.newexpense.userid){
         this.newexpense.user = user.name;
       }
+      if(user.id == this.newexpense.excludeid){
+        this.newexpense.excluded = user.name;
+      }
     }
     if(this.newexpense.user && this.newexpense.userid && this.newexpense.amount && this.newexpense.expense){
       this.fireProv.addExpense(this.newexpense).then(() => {
@@ -76,6 +98,8 @@ export class ExpensesPage {
         this.newexpense.amount = 0;
         this.newexpense.userid = 1;
         this.newexpense.expense = '';
+        this.newexpense.excludeid = 0;
+        this.newexpense.excluded = 'Niemand';
       });
     }
   }
