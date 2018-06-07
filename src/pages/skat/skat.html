@@ -64,7 +64,7 @@
   </ion-item>
   <ion-item *ngIf="game.gameid == 7" text-wrap>
     <ion-label stacked>Negativpunkte</ion-label>
-    <ion-input type="number" [(ngModel)]="game.points"></ion-input>
+    <ion-input type="text" [(ngModel)]="game.points"></ion-input>
   </ion-item>
   <ion-item *ngIf="game.gameid < 7">
     <ion-checkbox [(ngModel)]="game.lost" (ionChange)="calculatePoints()"></ion-checkbox>

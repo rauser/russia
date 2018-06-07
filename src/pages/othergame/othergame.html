@@ -19,7 +19,7 @@
       <img [src]="player.img">
     </ion-thumbnail>
     <ion-label stacked>Aktuelle Punkte: {{player.points}}</ion-label>
-    <ion-input type="number" [(ngModel)]="player.newpoints"></ion-input>
+    <ion-input type="text" [(ngModel)]="player.newpoints"></ion-input>
   </ion-item>
   <button ion-button full color="secondary" (click)="setNewUserPoints()">Punkte hinzufügen</button>
 </ion-content>

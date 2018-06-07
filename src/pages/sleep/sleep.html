@@ -30,7 +30,7 @@
     <ion-datetime [(ngModel)]="newsleep.arrivaliso" displayFormat="DD.MM.YYYY - HH:mm"></ion-datetime>
   </ion-item>
   <ion-item>
-    <ion-label stacked>Anreise</ion-label>
+    <ion-label stacked>Abreise</ion-label>
     <ion-datetime [(ngModel)]="newsleep.departure" displayFormat="DD.MM.YYYY - HH:mm"></ion-datetime>
   </ion-item>
   <ion-item>
@@ -49,6 +49,9 @@
       <p>Check-Out: {{sleep.departure}}</p>
       <p>Typ: {{sleep.type}}</p>
       <p *ngIf="sleep.comment">Bemerkung: {{sleep.comment}}</p>
+      <a href={{sleep.googlelink}}>
+        Google
+      </a>
       <ion-icon name="trash" color="danger" item-end (click)="removeSleep(sleep.key)"></ion-icon>
     </ion-item>
   </ion-list>

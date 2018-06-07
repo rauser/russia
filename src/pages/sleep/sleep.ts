@@ -61,6 +61,7 @@ export class SleepPage {
         console.log(res);
         for(let sleep in res){
           res[sleep].key = sleep;
+          res[sleep].googlelink = 'http://www.google.com/search?q=' +  res[sleep].city + '+' + res[sleep].adress;
           this.sleepsToShow.push(res[sleep]);
         }
         this.sleepsToShow.sort((a, b) =>{

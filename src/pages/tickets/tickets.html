@@ -19,7 +19,7 @@
     <ion-input type="textarea" rows="3" [(ngModel)]="newTicket.description" placeholder="Beschreibung"></ion-input>
   </ion-item>
   <button ion-button full color="secondary" (click)="addTicket()">PDF auswählen</button>
-  <ion-item *ngFor="let file of tickets">
+  <ion-item *ngFor="let file of tickets" text-wrap>
     <a [href]="file.url">{{file.name}}</a>
     <p>{{file.description}}</p>
     <ion-icon name="trash" color="danger" item-end (click)="deleteFile(file)"></ion-icon>
