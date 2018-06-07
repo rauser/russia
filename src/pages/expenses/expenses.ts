@@ -52,7 +52,7 @@ export class ExpensesPage {
           res[expense].key = expense;
           this.expenses.push(res[expense]);
           for(let user of this.users){
-            if(res[expense].excludeid){
+            if(res[expense].excludeid != 0){
               if(res[expense].excludeid == res[expense].userid){
                 if(res[expense].userid == user.id){
                   user.credit += +res[expense].amount;
